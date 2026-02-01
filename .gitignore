@@ -1,10 +1,27 @@
 ## .NET and JetBrains Rider
 ## Ignore build results, temporary files, and IDE-specific files
 
-# JetBrains Rider
+# Claude Code project instructions
+CLAUDE.md
+
+# JetBrains Rider / IntelliJ IDEA
 .idea/
 *.sln.iml
 *.sln.DotSettings.user
+_ReSharper.*/
+*.resharper
+*.resharper.user
+_ReSharper*/
+_TeamCity*
+*.DotSettings
+!*.DotSettings
+*.DotSettings.user
+# Rider project specific
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
 
 # Build results
 [Dd]ebug/
@@ -102,9 +119,6 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
-# VS Code directories
-.vscode/
-
 # Windows Installer files
 *.cab
 *.msi
@@ -114,9 +128,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-
-# JetBrains Rider
-*.sln.iml
 
 # Database files
 *.db
