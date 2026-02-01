@@ -1,27 +1,20 @@
 ## .NET and JetBrains Rider
 ## Ignore build results, temporary files, and IDE-specific files
 
-# Claude Code project instructions
+# Claude Code (user-specific settings)
 CLAUDE.md
+.claude/
 
 # JetBrains Rider / IntelliJ IDEA
 .idea/
 *.sln.iml
 *.sln.DotSettings.user
+*.DotSettings.user
 _ReSharper.*/
+_ReSharper*/
 *.resharper
 *.resharper.user
-_ReSharper*/
 _TeamCity*
-*.DotSettings
-!*.DotSettings
-*.DotSettings.user
-# Rider project specific
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/**/usage.statistics.xml
-.idea/**/dictionaries
-.idea/**/shelf
 
 # Build results
 [Dd]ebug/
