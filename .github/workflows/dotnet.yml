@@ -13,12 +13,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # --------------------------------------------------------
-    # 👇 THE FIX: Tell the robot where your code actually lives
-    # --------------------------------------------------------
     defaults:
       run:
-        working-directory: ./fintrackpro-backend
+        working-directory: ./finTrackPro-Backend
 
     steps:
     - uses: actions/checkout@v4
