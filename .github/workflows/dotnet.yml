@@ -1,20 +1,24 @@
 name: FinTrack CI
 
 on:
-  # Trigger 1: Run when you push code to the main branch
   push:
-    branches: [ "master" ]
-    paths-ignore:        
+    branches: [ "master" ] 
+    paths-ignore:
       - '**.md'
       - 'docs/**'
       - '.gitignore'
-
-  # Trigger 2: Adds a "Run Workflow" button in GitHub so you can test it manually
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    # --------------------------------------------------------
+    # 👇 THE FIX: Tell the robot where your code actually lives
+    # --------------------------------------------------------
+    defaults:
+      run:
+        working-directory: ./fintrackpro-backend
 
     steps:
     - uses: actions/checkout@v4
