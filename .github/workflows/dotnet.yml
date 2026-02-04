@@ -1,0 +1,34 @@
+name: FinTrack CI
+
+on:
+  # Trigger 1: Run when you push code to the main branch
+  push:
+    branches: [ "master" ]
+    paths-ignore:        
+      - '**.md'
+      - 'docs/**'
+      - '.gitignore'
+
+  # Trigger 2: Adds a "Run Workflow" button in GitHub so you can test it manually
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x 
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
