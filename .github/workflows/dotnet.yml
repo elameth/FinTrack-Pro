@@ -15,7 +15,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./finTrackPro-Backend
+        working-directory: ./FinTrackPro-Backend
 
     steps:
     - uses: actions/checkout@v4
