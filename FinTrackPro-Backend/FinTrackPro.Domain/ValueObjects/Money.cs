@@ -4,8 +4,12 @@ namespace FinTrackPro.Domain.ValueObjects;
 
 public sealed class Money : IEquatable<Money>
 {
-    public decimal Amount { get; }
-    public Currency Currency { get; }
+    public decimal Amount { get; private set; }
+    public Currency Currency { get; private set; }
+
+    private Money()
+    {
+    }
 
     public Money(decimal amount, Currency currency)
     {

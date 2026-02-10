@@ -4,8 +4,12 @@ namespace FinTrackPro.Domain.ValueObjects;
 
 public sealed class RecurrencePeriod : IEquatable<RecurrencePeriod>
 {
-    public RecurrenceType RecurrenceType { get; }
-    public int Interval { get; }
+    public RecurrenceType RecurrenceType { get; private set; }
+    public int Interval { get; private set; }
+
+    private RecurrencePeriod()
+    {
+    }
 
     public RecurrencePeriod(RecurrenceType recurrenceType, int interval)
     {
