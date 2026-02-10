@@ -3,7 +3,7 @@ using FinTrackPro.Domain.ValueObjects;
 
 namespace FinTrackPro.Tests.Domain.ValueObjects;
 
-public class RecurrencePeriodTests
+public class RecurrencePeriod
 {
     [Theory]
     [InlineData(RecurrenceType.Daily, 1)]
@@ -12,7 +12,7 @@ public class RecurrencePeriodTests
     [InlineData(RecurrenceType.Yearly, 1)]
     public void Constructor_WithValidParameters_CreatesInstance(RecurrenceType type, int interval)
     {
-        var period = new RecurrencePeriod(type, interval);
+        var period = new FinTrackPro.Domain.ValueObjects.RecurrencePeriod(type, interval);
 
         Assert.Equal(type, period.RecurrenceType);
         Assert.Equal(interval, period.Interval);
@@ -25,14 +25,14 @@ public class RecurrencePeriodTests
     public void Constructor_WithInvalidInterval_ThrowsArgumentException(int interval)
     {
         var exception = Assert.Throws<ArgumentException>(() =>
-            new RecurrencePeriod(RecurrenceType.Daily, interval));
+            new FinTrackPro.Domain.ValueObjects.RecurrencePeriod(RecurrenceType.Daily, interval));
         Assert.Contains("must be positive", exception.Message);
     }
 
     [Fact]
     public void Daily_CreatesCorrectPeriod()
     {
-        var period = RecurrencePeriod.Daily(3);
+        var period = FinTrackPro.Domain.ValueObjects.RecurrencePeriod.Daily(3);
 
         Assert.Equal(RecurrenceType.Daily, period.RecurrenceType);
         Assert.Equal(3, period.Interval);
@@ -41,7 +41,7 @@ public class RecurrencePeriodTests
     [Fact]
     public void Weekly_CreatesCorrectPeriod()
     {
-        var period = RecurrencePeriod.Weekly(2);
+        var period = FinTrackPro.Domain.ValueObjects.RecurrencePeriod.Weekly(2);
 
         Assert.Equal(RecurrenceType.Weekly, period.RecurrenceType);
         Assert.Equal(2, period.Interval);
@@ -50,7 +50,7 @@ public class RecurrencePeriodTests
     [Fact]
     public void Biweekly_CreatesCorrectPeriod()
     {
-        var period = RecurrencePeriod.Biweekly();
+        var period = FinTrackPro.Domain.ValueObjects.RecurrencePeriod.Biweekly();
 
         Assert.Equal(RecurrenceType.Weekly, period.RecurrenceType);
         Assert.Equal(2, period.Interval);
@@ -59,7 +59,7 @@ public class RecurrencePeriodTests
     [Fact]
     public void Monthly_CreatesCorrectPeriod()
     {
-        var period = RecurrencePeriod.Monthly(6);
+        var period = FinTrackPro.Domain.ValueObjects.RecurrencePeriod.Monthly(6);
 
         Assert.Equal(RecurrenceType.Monthly, period.RecurrenceType);
         Assert.Equal(6, period.Interval);
@@ -68,7 +68,7 @@ public class RecurrencePeriodTests
     [Fact]
     public void Quarterly_CreatesCorrectPeriod()
     {
-        var period = RecurrencePeriod.Quarterly();
+        var period = FinTrackPro.Domain.ValueObjects.RecurrencePeriod.Quarterly();
 
         Assert.Equal(RecurrenceType.Monthly, period.RecurrenceType);
         Assert.Equal(3, period.Interval);
@@ -77,7 +77,7 @@ public class RecurrencePeriodTests
     [Fact]
     public void Yearly_CreatesCorrectPeriod()
     {
-        var period = RecurrencePeriod.Yearly(2);
+        var period = FinTrackPro.Domain.ValueObjects.RecurrencePeriod.Yearly(2);
 
         Assert.Equal(RecurrenceType.Yearly, period.RecurrenceType);
         Assert.Equal(2, period.Interval);
@@ -86,7 +86,7 @@ public class RecurrencePeriodTests
     [Fact]
     public void CalculateNextOccurrence_Daily_AddsCorrectDays()
     {
-        var period = RecurrencePeriod.Daily(3);
+        var period = FinTrackPro.Domain.ValueObjects.RecurrencePeriod.Daily(3);
         var startDate = new DateTime(2024, 1, 1);
 
         var nextDate = period.CalculateNextOccurrence(startDate);
@@ -97,7 +97,7 @@ public class RecurrencePeriodTests
     [Fact]
     public void CalculateNextOccurrence_Weekly_AddsCorrectWeeks()
     {
-        var period = RecurrencePeriod.Weekly(2);
+        var period = FinTrackPro.Domain.ValueObjects.RecurrencePeriod.Weekly(2);
         var startDate = new DateTime(2024, 1, 1);
 
         var nextDate = period.CalculateNextOccurrence(startDate);
@@ -108,7 +108,7 @@ public class RecurrencePeriodTests
     [Fact]
     public void CalculateNextOccurrence_Monthly_AddsCorrectMonths()
     {
-        var period = RecurrencePeriod.Monthly(3);
+        var period = FinTrackPro.Domain.ValueObjects.RecurrencePeriod.Monthly(3);
         var startDate = new DateTime(2024, 1, 15);
 
         var nextDate = period.CalculateNextOccurrence(startDate);
@@ -119,7 +119,7 @@ public class RecurrencePeriodTests
     [Fact]
     public void CalculateNextOccurrence_Yearly_AddsCorrectYears()
     {
-        var period = RecurrencePeriod.Yearly(2);
+        var period = FinTrackPro.Domain.ValueObjects.RecurrencePeriod.Yearly(2);
         var startDate = new DateTime(2024, 6, 15);
 
         var nextDate = period.CalculateNextOccurrence(startDate);
@@ -130,8 +130,8 @@ public class RecurrencePeriodTests
     [Fact]
     public void Equals_SameTypeAndInterval_ReturnsTrue()
     {
-        var period1 = RecurrencePeriod.Monthly(3);
-        var period2 = RecurrencePeriod.Monthly(3);
+        var period1 = FinTrackPro.Domain.ValueObjects.RecurrencePeriod.Monthly(3);
+        var period2 = FinTrackPro.Domain.ValueObjects.RecurrencePeriod.Monthly(3);
 
         Assert.True(period1.Equals(period2));
         Assert.True(period1 == period2);
@@ -143,8 +143,8 @@ public class RecurrencePeriodTests
     [InlineData(RecurrenceType.Monthly, 3, RecurrenceType.Yearly, 3)]
     public void Equals_DifferentValues_ReturnsFalse(RecurrenceType type1, int interval1, RecurrenceType type2, int interval2)
     {
-        var period1 = new RecurrencePeriod(type1, interval1);
-        var period2 = new RecurrencePeriod(type2, interval2);
+        var period1 = new FinTrackPro.Domain.ValueObjects.RecurrencePeriod(type1, interval1);
+        var period2 = new FinTrackPro.Domain.ValueObjects.RecurrencePeriod(type2, interval2);
 
         Assert.False(period1.Equals(period2));
         Assert.True(period1 != period2);
@@ -158,7 +158,7 @@ public class RecurrencePeriodTests
     [InlineData(RecurrenceType.Monthly, 6, "Every 6 monthly")]
     public void ToString_FormatsCorrectly(RecurrenceType type, int interval, string expected)
     {
-        var period = new RecurrencePeriod(type, interval);
+        var period = new FinTrackPro.Domain.ValueObjects.RecurrencePeriod(type, interval);
 
         Assert.Equal(expected, period.ToString());
     }
@@ -166,8 +166,8 @@ public class RecurrencePeriodTests
     [Fact]
     public void GetHashCode_SameValues_ReturnsSameHashCode()
     {
-        var period1 = RecurrencePeriod.Monthly(3);
-        var period2 = RecurrencePeriod.Monthly(3);
+        var period1 = FinTrackPro.Domain.ValueObjects.RecurrencePeriod.Monthly(3);
+        var period2 = FinTrackPro.Domain.ValueObjects.RecurrencePeriod.Monthly(3);
 
         Assert.Equal(period1.GetHashCode(), period2.GetHashCode());
     }

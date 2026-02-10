@@ -2,7 +2,7 @@ using FinTrackPro.Domain.ValueObjects;
 
 namespace FinTrackPro.Tests.Domain.ValueObjects;
 
-public class DateRangeTests
+public class DateRange
 {
     [Fact]
     public void Constructor_WithValidDates_CreatesInstance()
@@ -10,7 +10,7 @@ public class DateRangeTests
         var start = new DateTime(2024, 1, 1);
         var end = new DateTime(2024, 1, 31);
 
-        var range = new DateRange(start, end);
+        var range = new FinTrackPro.Domain.ValueObjects.DateRange(start, end);
 
         Assert.Equal(start, range.StartDate);
         Assert.Equal(end, range.EndDate);
@@ -21,7 +21,7 @@ public class DateRangeTests
     {
         var date = new DateTime(2024, 1, 15);
 
-        var range = new DateRange(date, date);
+        var range = new FinTrackPro.Domain.ValueObjects.DateRange(date, date);
 
         Assert.Equal(date, range.StartDate);
         Assert.Equal(date, range.EndDate);
@@ -33,7 +33,7 @@ public class DateRangeTests
         var start = new DateTime(2024, 1, 31);
         var end = new DateTime(2024, 1, 1);
 
-        var exception = Assert.Throws<ArgumentException>(() => new DateRange(start, end));
+        var exception = Assert.Throws<ArgumentException>(() => new FinTrackPro.Domain.ValueObjects.DateRange(start, end));
         Assert.Contains("cannot be after", exception.Message);
     }
 
@@ -43,7 +43,7 @@ public class DateRangeTests
         var start = new DateTime(2024, 1, 1, 10, 30, 45);
         var end = new DateTime(2024, 1, 31, 23, 59, 59);
 
-        var range = new DateRange(start, end);
+        var range = new FinTrackPro.Domain.ValueObjects.DateRange(start, end);
 
         Assert.Equal(new DateTime(2024, 1, 1), range.StartDate);
         Assert.Equal(new DateTime(2024, 1, 31), range.EndDate);
@@ -55,7 +55,7 @@ public class DateRangeTests
     [InlineData(1, 1, 12, 31, 365)]
     public void Duration_CalculatesCorrectly(int startMonth, int startDay, int endMonth, int endDay, int expectedDays)
     {
-        var range = new DateRange(
+        var range = new FinTrackPro.Domain.ValueObjects.DateRange(
             new DateTime(2024, startMonth, startDay),
             new DateTime(2024, endMonth, endDay));
 
@@ -68,7 +68,7 @@ public class DateRangeTests
     [InlineData(1, 1, 12, 31, 366)]
     public void DurationInDays_IncludesStartAndEndDays(int startMonth, int startDay, int endMonth, int endDay, int expected)
     {
-        var range = new DateRange(
+        var range = new FinTrackPro.Domain.ValueObjects.DateRange(
             new DateTime(2024, startMonth, startDay),
             new DateTime(2024, endMonth, endDay));
 
@@ -83,7 +83,7 @@ public class DateRangeTests
     [InlineData(2, 1, false)]
     public void Contains_ChecksDateCorrectly(int month, int day, bool expected)
     {
-        var range = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
+        var range = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
         var date = new DateTime(2024, month, day);
 
         Assert.Equal(expected, range.Contains(date));
@@ -92,8 +92,8 @@ public class DateRangeTests
     [Fact]
     public void Overlaps_WithOverlappingRange_ReturnsTrue()
     {
-        var range1 = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 15));
-        var range2 = new DateRange(new DateTime(2024, 1, 10), new DateTime(2024, 1, 20));
+        var range1 = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 15));
+        var range2 = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 10), new DateTime(2024, 1, 20));
 
         Assert.True(range1.Overlaps(range2));
         Assert.True(range2.Overlaps(range1));
@@ -102,8 +102,8 @@ public class DateRangeTests
     [Fact]
     public void Overlaps_WithNonOverlappingRange_ReturnsFalse()
     {
-        var range1 = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 15));
-        var range2 = new DateRange(new DateTime(2024, 1, 20), new DateTime(2024, 1, 31));
+        var range1 = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 15));
+        var range2 = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 20), new DateTime(2024, 1, 31));
 
         Assert.False(range1.Overlaps(range2));
         Assert.False(range2.Overlaps(range1));
@@ -112,8 +112,8 @@ public class DateRangeTests
     [Fact]
     public void Overlaps_WithAdjacentRange_ReturnsTrue()
     {
-        var range1 = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 15));
-        var range2 = new DateRange(new DateTime(2024, 1, 15), new DateTime(2024, 1, 31));
+        var range1 = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 15));
+        var range2 = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 15), new DateTime(2024, 1, 31));
 
         Assert.True(range1.Overlaps(range2));
     }
@@ -121,7 +121,7 @@ public class DateRangeTests
     [Fact]
     public void Overlaps_WithNull_ThrowsArgumentNullException()
     {
-        var range = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
+        var range = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
 
         Assert.Throws<ArgumentNullException>(() => range.Overlaps(null!));
     }
@@ -129,8 +129,8 @@ public class DateRangeTests
     [Fact]
     public void IsWithin_WhenCompletelyInside_ReturnsTrue()
     {
-        var inner = new DateRange(new DateTime(2024, 1, 10), new DateTime(2024, 1, 20));
-        var outer = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
+        var inner = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 10), new DateTime(2024, 1, 20));
+        var outer = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
 
         Assert.True(inner.IsWithin(outer));
     }
@@ -138,8 +138,8 @@ public class DateRangeTests
     [Fact]
     public void IsWithin_WhenPartiallyOutside_ReturnsFalse()
     {
-        var range1 = new DateRange(new DateTime(2024, 1, 10), new DateTime(2024, 2, 5));
-        var range2 = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
+        var range1 = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 10), new DateTime(2024, 2, 5));
+        var range2 = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
 
         Assert.False(range1.IsWithin(range2));
     }
@@ -147,8 +147,8 @@ public class DateRangeTests
     [Fact]
     public void IsWithin_WhenSameRange_ReturnsTrue()
     {
-        var range1 = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
-        var range2 = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
+        var range1 = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
+        var range2 = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
 
         Assert.True(range1.IsWithin(range2));
     }
@@ -156,7 +156,7 @@ public class DateRangeTests
     [Fact]
     public void IsWithin_WithNull_ThrowsArgumentNullException()
     {
-        var range = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
+        var range = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
 
         Assert.Throws<ArgumentNullException>(() => range.IsWithin(null!));
     }
@@ -165,7 +165,7 @@ public class DateRangeTests
     public void Today_CreatesRangeForCurrentDay()
     {
         var today = DateTime.UtcNow.Date;
-        var range = DateRange.Today();
+        var range = FinTrackPro.Domain.ValueObjects.DateRange.Today();
 
         Assert.Equal(today, range.StartDate);
         Assert.Equal(today, range.EndDate);
@@ -175,7 +175,7 @@ public class DateRangeTests
     [Fact]
     public void Last30Days_Creates30DayRange()
     {
-        var range = DateRange.Last30Days();
+        var range = FinTrackPro.Domain.ValueObjects.DateRange.Last30Days();
 
         Assert.Equal(30, range.DurationInDays);
         Assert.Equal(DateTime.UtcNow.Date, range.EndDate);
@@ -184,7 +184,7 @@ public class DateRangeTests
     [Fact]
     public void Last90Days_Creates90DayRange()
     {
-        var range = DateRange.Last90Days();
+        var range = FinTrackPro.Domain.ValueObjects.DateRange.Last90Days();
 
         Assert.Equal(90, range.DurationInDays);
         Assert.Equal(DateTime.UtcNow.Date, range.EndDate);
@@ -193,7 +193,7 @@ public class DateRangeTests
     [Fact]
     public void ThisMonth_CreatesCurrentMonthRange()
     {
-        var range = DateRange.ThisMonth();
+        var range = FinTrackPro.Domain.ValueObjects.DateRange.ThisMonth();
         var today = DateTime.UtcNow.Date;
 
         Assert.Equal(1, range.StartDate.Day);
@@ -204,7 +204,7 @@ public class DateRangeTests
     [Fact]
     public void ThisYear_CreatesCurrentYearRange()
     {
-        var range = DateRange.ThisYear();
+        var range = FinTrackPro.Domain.ValueObjects.DateRange.ThisYear();
         var today = DateTime.UtcNow.Date;
 
         Assert.Equal(new DateTime(today.Year, 1, 1), range.StartDate);
@@ -214,8 +214,8 @@ public class DateRangeTests
     [Fact]
     public void Equals_SameDates_ReturnsTrue()
     {
-        var range1 = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
-        var range2 = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
+        var range1 = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
+        var range2 = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
 
         Assert.True(range1.Equals(range2));
         Assert.True(range1 == range2);
@@ -224,8 +224,8 @@ public class DateRangeTests
     [Fact]
     public void Equals_DifferentDates_ReturnsFalse()
     {
-        var range1 = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
-        var range2 = new DateRange(new DateTime(2024, 2, 1), new DateTime(2024, 2, 28));
+        var range1 = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
+        var range2 = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 2, 1), new DateTime(2024, 2, 28));
 
         Assert.False(range1.Equals(range2));
         Assert.True(range1 != range2);
@@ -234,7 +234,7 @@ public class DateRangeTests
     [Fact]
     public void ToString_FormatsCorrectly()
     {
-        var range = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 12, 31));
+        var range = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 12, 31));
 
         Assert.Equal("2024-01-01 to 2024-12-31", range.ToString());
     }
@@ -242,8 +242,8 @@ public class DateRangeTests
     [Fact]
     public void GetHashCode_SameValues_ReturnsSameHashCode()
     {
-        var range1 = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
-        var range2 = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
+        var range1 = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
+        var range2 = new FinTrackPro.Domain.ValueObjects.DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 31));
 
         Assert.Equal(range1.GetHashCode(), range2.GetHashCode());
     }
